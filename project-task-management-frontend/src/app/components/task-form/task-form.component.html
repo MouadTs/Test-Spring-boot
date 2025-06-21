@@ -1,0 +1,114 @@
+<div class="task-form-container modern-card">
+  <div class="form-header">
+    <h5 class="form-title">
+      <i class="bi bi-plus-circle-fill me-2 text-primary"></i>
+      Add New Task
+    </h5>
+    <p class="form-subtitle">Create a new task for this project</p>
+  </div>
+
+  <form (ngSubmit)="submit()" class="task-form">
+    <div class="row g-3">
+      <!-- Task Title -->
+      <div class="col-12">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-type me-2"></i>
+          Task Title *
+        </label>
+        <input 
+          class="form-control form-control-modern" 
+          placeholder="Enter task title..." 
+          [(ngModel)]="task.title" 
+          name="title" 
+          required
+          maxlength="100"
+        >
+        <div class="form-text">Brief, descriptive title for the task</div>
+      </div>
+
+      <!-- Task Description -->
+      <div class="col-12">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-text-paragraph me-2"></i>
+          Description
+        </label>
+        <textarea 
+          class="form-control form-control-modern" 
+          placeholder="Enter task description (optional)..." 
+          [(ngModel)]="task.description" 
+          name="description"
+          rows="3"
+          maxlength="500"
+        ></textarea>
+        <div class="form-text">Detailed description of what needs to be done</div>
+      </div>
+
+      <!-- Status and Due Date Row -->
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-flag me-2"></i>
+          Status *
+        </label>
+        <select 
+          class="form-select form-control-modern" 
+          [(ngModel)]="task.status" 
+          name="status" 
+          required
+        >
+          <option value="">Select status...</option>
+          <option *ngFor="let status of (TaskStatus | keyvalue)" [value]="status.value">
+            {{ status.value }}
+          </option>
+        </select>
+        <div class="form-text">Current status of the task</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-calendar-event me-2"></i>
+          Due Date
+        </label>
+        <input 
+          class="form-control form-control-modern" 
+          type="date" 
+          [(ngModel)]="task.dueDate" 
+          name="dueDate"
+          [min]="getTodayDate()"
+        >
+        <div class="form-text">When the task should be completed</div>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button 
+        type="button" 
+        class="btn btn-outline-secondary btn-modern me-2"
+        (click)="resetForm()"
+      >
+        <i class="bi bi-arrow-clockwise me-2"></i>
+        Reset
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-modern btn-primary-modern"
+        [disabled]="!task.title || !task.status"
+      >
+        <i class="bi bi-plus-lg me-2"></i>
+        Create Task
+      </button>
+    </div>
+  </form>
+
+  <!-- Success Message -->
+  <div *ngIf="showSuccess" class="alert alert-success alert-modern mt-3" role="alert">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    Task created successfully!
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger alert-modern mt-3" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ error }}
+  </div>
+</div> 

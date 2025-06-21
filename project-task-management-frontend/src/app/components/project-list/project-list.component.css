@@ -1,0 +1,266 @@
+/* Project List Component Styles */
+.project-card {
+  margin-bottom: 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+}
+
+.project-card:hover {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.project-header {
+  background-color: #f8f9fa;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.project-body {
+  padding: 1rem;
+}
+
+.project-dashboard {
+  min-height: calc(100vh - 200px);
+}
+
+.section-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
+.alert-modern {
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  color: #92400e;
+  box-shadow: var(--shadow-sm);
+}
+
+.project-count {
+  text-align: center;
+  padding: 1rem;
+  background: var(--light-bg);
+  border-radius: 12px;
+}
+
+.count-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.count-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.project-list {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  color: var(--border-color);
+}
+
+.empty-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.empty-text {
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.empty-state-large {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-secondary);
+}
+
+.empty-icon-large {
+  font-size: 4rem;
+  color: var(--border-color);
+}
+
+.empty-title-large {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.empty-text-large {
+  font-size: 1rem;
+  margin: 0;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.project-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  background: white;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.project-item:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary-color);
+}
+
+.project-item.active {
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  color: white;
+  border-color: var(--primary-color);
+  box-shadow: var(--shadow-lg);
+}
+
+.project-item.active .project-name {
+  color: white;
+}
+
+.project-item.active .project-meta {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.project-item.active .project-icon {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.project-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+}
+
+.project-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--light-bg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  color: var(--primary-color);
+  transition: all 0.3s ease;
+}
+
+.project-info {
+  flex: 1;
+}
+
+.project-name {
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.project-meta {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.project-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.project-actions .btn {
+  border-radius: 8px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+.project-actions .btn:hover {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.project-item:hover .project-actions {
+  color: var(--primary-color);
+}
+
+.project-item.active .project-actions {
+  color: white;
+}
+
+.project-item.active .project-actions .btn {
+  opacity: 0.8;
+}
+
+.project-item.active .project-actions .btn:hover {
+  opacity: 1;
+}
+
+.project-status {
+  display: flex;
+  align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .project-dashboard {
+    min-height: auto;
+  }
+  
+  .project-item {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .project-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 0.75rem;
+  }
+  
+  .project-name {
+    font-size: 0.875rem;
+  }
+  
+  .project-meta {
+    font-size: 0.7rem;
+  }
+  
+  .project-actions .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+  
+  .empty-state-large {
+    padding: 2rem 1rem;
+  }
+  
+  .empty-icon-large {
+    font-size: 3rem;
+  }
+} 

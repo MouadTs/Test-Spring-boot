@@ -1,0 +1,118 @@
+<div class="project-dashboard fade-in">
+  <!-- Project Creation Section -->
+  <div class="modern-card p-4 mb-4">
+    <div class="row align-items-end">
+      <div class="col-md-8">
+        <h5 class="section-title mb-3">
+          <i class="bi bi-plus-circle-fill me-2 text-primary"></i>
+          Create New Project
+        </h5>
+        <form (ngSubmit)="addProject()" class="d-flex gap-3">
+          <div class="flex-grow-1">
+            <input
+              type="text"
+              class="form-control form-control-modern"
+              placeholder="Enter project name..."
+              [(ngModel)]="newProjectName"
+              name="newProjectName"
+              maxlength="50"
+            />
+          </div>
+          <button type="submit" class="btn btn-modern btn-primary-modern">
+            <i class="bi bi-plus-lg me-2"></i>
+            Create Project
+          </button>
+        </form>
+      </div>
+      <div class="col-md-4 text-end">
+        <div class="project-count">
+          <span class="count-number">{{ projects.length }}</span>
+          <span class="count-label">Projects</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Display -->
+  <div *ngIf="error" class="alert alert-warning alert-modern" role="alert">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ error }}
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="!error" class="row g-4">
+    <!-- Projects Sidebar -->
+    <div class="col-lg-4">
+      <div class="modern-card p-4 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="section-title mb-0">
+            <i class="bi bi-folder2-open me-2 text-primary"></i>
+            Projects
+          </h5>
+          <span class="badge bg-primary rounded-pill">{{ projects.length }}</span>
+        </div>
+        
+        <div class="project-list">
+          <div *ngIf="projects.length === 0" class="empty-state">
+            <div class="empty-icon mb-3">
+              <i class="bi bi-folder2"></i>
+            </div>
+            <h6 class="empty-title">No Projects Yet</h6>
+            <p class="empty-text">Create your first project to get started!</p>
+          </div>
+          
+          <div *ngFor="let project of projects; trackBy: trackByProject" 
+               class="project-item"
+               [class.active]="project === selectedProject">
+            <div class="project-content" (click)="selectProject(project)">
+              <div class="project-icon">
+                <i class="bi bi-folder2-fill"></i>
+              </div>
+              <div class="project-info">
+                <h6 class="project-name">{{ project.name }}</h6>
+                <p class="project-meta">Created recently</p>
+              </div>
+            </div>
+            <div class="project-actions">
+              <button class="btn btn-sm btn-outline-danger" 
+                      (click)="deleteProject(project); $event.stopPropagation()"
+                      title="Delete Project">
+                <i class="bi bi-trash"></i>
+              </button>
+              <i class="bi bi-chevron-right ms-2"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tasks Section -->
+    <div class="col-lg-8">
+      <div class="modern-card p-4 h-100">
+        <div *ngIf="selectedProject" class="slide-in">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h5 class="section-title mb-1">
+                <i class="bi bi-list-task me-2 text-primary"></i>
+                {{ selectedProject.name }}
+              </h5>
+              <p class="text-muted mb-0">Manage tasks for this project</p>
+            </div>
+            <div class="project-status">
+              <span class="badge bg-success rounded-pill">Active</span>
+            </div>
+          </div>
+          <app-task-list [project]="selectedProject"></app-task-list>
+        </div>
+        
+        <div *ngIf="!selectedProject" class="empty-state-large">
+          <div class="empty-icon-large mb-4">
+            <i class="bi bi-list-check"></i>
+          </div>
+          <h4 class="empty-title-large">Select a Project</h4>
+          <p class="empty-text-large">Choose a project from the sidebar to view and manage its tasks.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

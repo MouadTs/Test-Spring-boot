@@ -1,0 +1,41 @@
+<div class="app-container">
+  <!-- Modern Header -->
+  <header class="modern-header">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-md-6">
+          <div class="d-flex align-items-center">
+            <div class="header-icon me-3">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div>
+              <h1 class="app-title mb-0">TaskFlow</h1>
+              <p class="app-subtitle mb-0">Project & Task Management</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 text-end">
+          <div class="header-stats">
+            <span class="stat-item">
+              <i class="bi bi-folder2-open me-1"></i>
+              <span class="stat-label">Projects</span>
+            </span>
+            <span class="stat-item">
+              <i class="bi bi-check2-circle me-1"></i>
+              <span class="stat-label">Tasks</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container-fluid">
+      <app-project-list></app-project-list>
+    </div>
+  </main>
+</div> 

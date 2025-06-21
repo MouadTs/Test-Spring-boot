@@ -1,0 +1,159 @@
+<div class="task-management">
+  <!-- Task Statistics -->
+  <div class="task-stats mb-4">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon todo">
+            <i class="bi bi-circle"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">{{ getTasksByStatus('TODO').length }}</div>
+            <div class="stat-label">To Do</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon in-progress">
+            <i class="bi bi-arrow-clockwise"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">{{ getTasksByStatus('IN_PROGRESS').length }}</div>
+            <div class="stat-label">In Progress</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon done">
+            <i class="bi bi-check-circle"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">{{ getTasksByStatus('DONE').length }}</div>
+            <div class="stat-label">Completed</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stat-card">
+          <div class="stat-icon total">
+            <i class="bi bi-list-ul"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number">{{ tasks.length }}</div>
+            <div class="stat-label">Total Tasks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="modern-card p-4 mb-4">
+    <div class="row g-3 align-items-end">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-search me-2"></i>
+          Search Tasks
+        </label>
+        <input 
+          class="form-control form-control-modern" 
+          placeholder="Search by title or description..." 
+          [(ngModel)]="search" 
+          (input)="applyFilters()"
+        >
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">
+          <i class="bi bi-funnel me-2"></i>
+          Filter by Status
+        </label>
+        <select 
+          class="form-select form-control-modern" 
+          [(ngModel)]="statusFilter" 
+          (change)="applyFilters()"
+        >
+          <option value="">All Statuses</option>
+          <option *ngFor="let status of (TaskStatus | keyvalue)" [value]="status.value">
+            {{ status.value }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <button 
+          class="btn btn-outline-secondary btn-modern w-100" 
+          (click)="clearFilters()"
+          [disabled]="!search && !statusFilter"
+        >
+          <i class="bi bi-x-lg me-1"></i>
+          Clear
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task List -->
+  <div class="task-list-container">
+    <div *ngIf="filteredTasks.length === 0" class="empty-tasks">
+      <div class="empty-icon mb-3">
+        <i class="bi bi-list-check"></i>
+      </div>
+      <h5 class="empty-title">No Tasks Found</h5>
+      <p class="empty-text">
+        {{ search || statusFilter ? 'No tasks match your current filters.' : 'No tasks created yet for this project.' }}
+      </p>
+      <button 
+        *ngIf="!search && !statusFilter" 
+        class="btn btn-modern btn-primary-modern"
+        (click)="scrollToTaskForm()"
+      >
+        <i class="bi bi-plus-lg me-2"></i>
+        Create First Task
+      </button>
+    </div>
+
+    <div *ngFor="let task of filteredTasks; trackBy: trackByTask" class="task-item modern-card">
+      <div class="task-header">
+        <div class="task-status-badge">
+          <span class="status-badge" [ngClass]="getStatusClass(task.status)">
+            {{ task.status }}
+          </span>
+        </div>
+        <div class="task-actions">
+          <button class="btn btn-sm btn-outline-primary" 
+                  (click)="editTask(task)"
+                  title="Edit Task">
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button class="btn btn-sm btn-outline-danger" 
+                  (click)="deleteTask(task)"
+                  title="Delete Task">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      </div>
+      
+      <div class="task-content">
+        <h6 class="task-title">{{ task.title }}</h6>
+        <p *ngIf="task.description" class="task-description">{{ task.description }}</p>
+        
+        <div class="task-meta">
+          <div class="task-date" *ngIf="task.dueDate">
+            <i class="bi bi-calendar3 me-1"></i>
+            <span>Due: {{ formatDate(task.dueDate) }}</span>
+          </div>
+          <div class="task-id">
+            <i class="bi bi-hash me-1"></i>
+            <span>ID: {{ task.id }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Task Form -->
+  <div class="task-form-section" #taskFormSection>
+    <app-task-form *ngIf="project.id" [projectId]="project.id!" (taskAdded)="loadTasks()"></app-task-form>
+  </div>
+</div> 
