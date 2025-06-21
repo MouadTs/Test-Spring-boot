@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Project } from '../../models/project';
 import { ApiService } from '../../services/api.service';
 import { TaskListComponent } from '../task-list/task-list.component';
+import { ToastService } from '../../services/toast.service';
+import { CommunicationService, ProjectUpdateEvent } from '../../services/communication.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-project-list',
@@ -12,16 +15,61 @@ import { TaskListComponent } from '../task-list/task-list.component';
   templateUrl: './project-list.component.html',
   styleUrl: './project-list.component.css'
 })
-export class ProjectListComponent implements OnInit {
+export class ProjectListComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   selectedProject?: Project;
   error: string | null = null;
   newProjectName = '';
+  private projectUpdateSubscription: Subscription = new Subscription();
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private toastService: ToastService,
+    private communicationService: CommunicationService
+  ) {}
 
   ngOnInit() {
     this.loadProjects();
+    this.subscribeToProjectUpdates();
+  }
+
+  ngOnDestroy() {
+    this.projectUpdateSubscription.unsubscribe();
+  }
+
+  private subscribeToProjectUpdates() {
+    this.projectUpdateSubscription = this.communicationService.getProjectUpdates().subscribe(event => {
+      if (event) {
+        switch (event.type) {
+          case 'created':
+            if (event.project) {
+              this.projects.push(event.project);
+            }
+            break;
+          case 'updated':
+            if (event.projectId && event.project) {
+              const index = this.projects.findIndex(p => p.id === event.projectId);
+              if (index !== -1) {
+                this.projects[index] = event.project;
+                // Update selected project if it was the one updated
+                if (this.selectedProject && this.selectedProject.id === event.projectId) {
+                  this.selectedProject = event.project;
+                }
+              }
+            }
+            break;
+          case 'deleted':
+            if (event.projectId) {
+              this.projects = this.projects.filter(p => p.id !== event.projectId);
+              // Clear selection if the deleted project was selected
+              if (this.selectedProject && this.selectedProject.id === event.projectId) {
+                this.selectedProject = undefined;
+              }
+            }
+            break;
+        }
+      }
+    });
   }
 
   loadProjects() {
@@ -38,6 +86,7 @@ export class ProjectListComponent implements OnInit {
       error: (err) => {
         console.error('Failed to load projects', err);
         this.error = 'Failed to load projects. Is the backend running?';
+        this.toastService.error('Erreur lors du chargement des projets. Vérifiez que le backend fonctionne.');
       }
     });
   }
@@ -51,13 +100,19 @@ export class ProjectListComponent implements OnInit {
     };
     
     this.api.addProject(project).subscribe({
-      next: () => {
+      next: (createdProject) => {
         this.newProjectName = '';
-        this.loadProjects();
+        
+        // Notify other components about the new project
+        this.communicationService.projectCreated(createdProject);
+        
+        // Show toast notification
+        this.toastService.success(`Projet "${createdProject.name}" créé avec succès !`);
       },
       error: (err) => {
         console.error('Failed to add project', err);
         this.error = 'Failed to add project. Is the backend running?';
+        this.toastService.error('Erreur lors de la création du projet. Vérifiez que le backend fonctionne.');
       }
     });
   }
@@ -68,18 +123,19 @@ export class ProjectListComponent implements OnInit {
   }
 
   deleteProject(project: Project) {
-    if (confirm(`Are you sure you want to delete project "${project.name}"? This will also delete all associated tasks.`)) {
-      this.api.deleteProject(project.id!).subscribe({
+    if (confirm(`Êtes-vous sûr de vouloir supprimer le projet "${project.name}" ? Cela supprimera également toutes les tâches associées.`) && project.id) {
+      this.api.deleteProject(project.id).subscribe({
         next: () => {
-          // If the deleted project was selected, clear the selection
-          if (this.selectedProject && this.selectedProject.id === project.id) {
-            this.selectedProject = undefined;
-          }
-          this.loadProjects();
+          // Notify other components about the deleted project
+          this.communicationService.projectDeleted(project.id);
+          
+          // Show toast notification
+          this.toastService.success(`Projet "${project.name}" supprimé avec succès !`);
         },
         error: (err) => {
           console.error('Failed to delete project', err);
           this.error = 'Failed to delete project. Please try again.';
+          this.toastService.error('Erreur lors de la suppression du projet. Veuillez réessayer.');
         }
       });
     }

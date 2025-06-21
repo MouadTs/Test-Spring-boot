@@ -1,178 +1,158 @@
-# Project Task Management System
+# Système de Gestion de Projets et Tâches :
 
-A full-stack web application for managing projects and tasks with a modern UI built using Spring Boot backend and Angular frontend.
+Une application web full-stack pour gérer des projets et des tâches avec une interface moderne construite avec Spring Boot backend et Angular frontend.
 
-## 🚀 Features
+## 🚀 Fonctionnalités
 
-- **Project Management**: Create, read, update, and delete projects
-- **Task Management**: Create, read, update, and delete tasks within projects
-- **One-to-Many Relationship**: Projects can have multiple tasks
-- **Modern UI**: Bootstrap-based responsive design with animations
-- **Real-time Updates**: Tasks are automatically filtered by selected project
-- **Status Management**: Tasks can have different statuses (TODO, IN_PROGRESS, COMPLETED)
-- **Date Management**: Projects and tasks support start/end dates and due dates
+- **Gestion de Projets** : Créer, lire, modifier et supprimer des projets
+- **Gestion de Tâches** : Créer, lire, modifier et supprimer des tâches dans les projets
+- **Relation One-to-Many** : Les projets peuvent avoir plusieurs tâches
+- **Interface Moderne** : Design responsive basé sur Bootstrap avec animations
+- **Mises à Jour en Temps Réel** : Les tâches sont automatiquement filtrées par projet sélectionné
+- **Gestion des Statuts** : Les tâches peuvent avoir différents statuts (À FAIRE, EN COURS, TERMINÉ)
+- **Gestion des Dates** : Les projets et tâches supportent les dates de début/fin et d'échéance
 
-## 🛠️ Technology Stack
+## 🛠️ Stack Technologique
 
 ### Backend
-- **Spring Boot 3.x**: Main framework
-- **Spring Data JPA**: Database operations
-- **H2 Database**: In-memory database (can be configured for production)
-- **Maven**: Build tool
-- **Java 17+**: Programming language
+- **Spring Boot 3.x** : Framework principal
+- **Spring Data JPA** : Opérations de base de données
+- **Base de Données H2** : Base de données en mémoire (configurable pour la production)
+- **Maven** : Outil de build
+- **Java 17+** : Langage de programmation
 
 ### Frontend
-- **Angular 17**: Frontend framework
-- **Bootstrap 5**: UI framework
-- **TypeScript**: Programming language
-- **Node.js**: Runtime environment
+- **Angular 17** : Framework frontend
+- **Bootstrap 5** : Framework UI
+- **TypeScript** : Langage de programmation
+- **Node.js** : Environnement d'exécution
 
-## 📋 Prerequisites
+## 📋 Prérequis
 
-- Java 17 or higher
-- Node.js 18 or higher
-- Maven (or use the included Maven wrapper)
+- Java 17 ou supérieur
+- Node.js 18 ou supérieur
+- Maven (ou utiliser le wrapper Maven inclus)
 - Git
 
-## 🚀 Getting Started
+## 🚀 Démarrage Rapide
 
-### Backend Setup
+### Configuration du Backend
 
-1. **Navigate to the project root directory**
+1. **Naviguez vers le répertoire racine du projet**
    ```bash
    cd "C:\Users\PREDATOR HELIOS 300\Desktop\Test SpringBoot"
    ```
 
-2. **Run the Spring Boot application**
+2. **Lancez l'application Spring Boot**
    ```bash
-   # Using Maven wrapper
+   # Utilisation du wrapper Maven
    .\mvnw.cmd spring-boot:run
    
-   # Or using Maven directly
+   # Ou utilisation directe de Maven
    mvn spring-boot:run
    ```
 
-3. **Access the backend API**
-   - The application will start on `http://localhost:8080`
-   - API endpoints are available at `http://localhost:8080/api/`
+3. **Accédez à l'API backend**
+   - L'application démarrera sur `http://localhost:8080`
+   - Les endpoints API sont disponibles sur `http://localhost:8080/api/`
 
-### Frontend Setup
+### Configuration du Frontend
 
-1. **Navigate to the Angular project directory**
+1. **Naviguez vers le répertoire du projet Angular**
    ```bash
    cd project-task-management-frontend
    ```
 
-2. **Install dependencies**
+2. **Installez les dépendances**
    ```bash
    npm install
    ```
 
-3. **Start the development server**
+3. **Démarrez le serveur de développement**
    ```bash
    npm start
    ```
 
-4. **Access the application**
-   - The frontend will be available at `http://localhost:4200`
+4. **Accédez à l'application**
+   - Le frontend sera disponible sur `http://localhost:4200`
 
-## 📚 API Endpoints
+## 📚 Endpoints API
 
-### Projects
-- `GET /api/projects` - Get all projects
-- `POST /api/projects` - Create a new project
-- `PUT /api/projects/{id}` - Update a project
-- `DELETE /api/projects/{id}` - Delete a project
+### Projets
+- `GET /api/projects` - Obtenir tous les projets
+- `POST /api/projects` - Créer un nouveau projet
+- `PUT /api/projects/{id}` - Modifier un projet
+- `DELETE /api/projects/{id}` - Supprimer un projet
 
-### Tasks
-- `GET /api/tasks` - Get all tasks
-- `GET /api/tasks/project/{projectId}` - Get tasks by project ID
-- `POST /api/tasks` - Create a new task
-- `PUT /api/tasks/{id}` - Update a task
-- `DELETE /api/tasks/{id}` - Delete a task
+### Tâches
+- `GET /api/tasks` - Obtenir toutes les tâches
+- `GET /api/tasks/project/{projectId}` - Obtenir les tâches par ID de projet
+- `POST /api/tasks` - Créer une nouvelle tâche
+- `PUT /api/tasks/{id}` - Modifier une tâche
+- `DELETE /api/tasks/{id}` - Supprimer une tâche
 
-## 🗄️ Database Schema
+## 🗄️ Schéma de Base de Données
 
-### Project Entity
-- `id` (Long, Primary Key)
-- `name` (String, Required)
+### Entité Projet
+- `id` (Long, Clé Primaire)
+- `name` (String, Obligatoire)
 - `description` (String)
 - `startDate` (LocalDate)
 - `endDate` (LocalDate)
 
-### Task Entity
-- `id` (Long, Primary Key)
-- `title` (String, Required)
+### Entité Tâche
+- `id` (Long, Clé Primaire)
+- `title` (String, Obligatoire)
 - `description` (String)
 - `status` (TaskStatus enum: TODO, IN_PROGRESS, COMPLETED)
 - `dueDate` (LocalDate)
-- `project` (Project, Many-to-One relationship)
+- `project` (Project, Relation Many-to-One)
 
-## 🎨 UI Features
+## 🎨 Fonctionnalités UI
 
-- **Responsive Design**: Works on desktop, tablet, and mobile devices
-- **Modern Animations**: Smooth transitions and hover effects
-- **Bootstrap Components**: Cards, modals, forms, and navigation
-- **Interactive Elements**: Confirmation dialogs for delete operations
-- **Real-time Filtering**: Tasks automatically update when switching projects
+- **Design Responsive** : Fonctionne sur desktop, tablette et mobile
+- **Animations Modernes** : Transitions fluides et effets de survol
+- **Composants Bootstrap** : Cartes, modales, formulaires et navigation
+- **Éléments Interactifs** : Dialogues de confirmation pour les opérations de suppression
+- **Filtrage en Temps Réel** : Les tâches se mettent à jour automatiquement lors du changement de projet
 
 ## 🔧 Configuration
 
-### Backend Configuration
-The application uses `application.properties` for configuration:
-- Database connection settings
-- CORS configuration
-- Logging levels
+### Configuration Backend
+L'application utilise `application.properties` pour la configuration :
+- Paramètres de connexion à la base de données
+- Configuration CORS
+- Niveaux de logging
 
-### Frontend Configuration
-- API base URL configuration in `api.service.ts`
-- Bootstrap and Angular configuration in respective config files
+### Configuration Frontend
+- Configuration de l'URL de base de l'API dans `api.service.ts`
+- Configuration Bootstrap et Angular dans leurs fichiers de configuration respectifs
 
-## 🚀 Deployment
+## 🚀 Déploiement
 
-### Backend Deployment
-1. Build the JAR file:
+### Déploiement Backend
+1. Construisez le fichier JAR :
    ```bash
    .\mvnw.cmd clean package
    ```
-2. Run the JAR file:
+2. Exécutez le fichier JAR :
    ```bash
    java -jar target/project-task-management-0.0.1-SNAPSHOT.jar
    ```
 
-### Frontend Deployment
-1. Build the production version:
+### Déploiement Frontend
+1. Construisez la version de production :
    ```bash
    cd project-task-management-frontend
    npm run build
    ```
-2. Deploy the `dist` folder to your web server
+2. Déployez le dossier `dist` sur votre serveur web
 
-## 🤝 Contributing
+## 🤝 Contribution
 
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
+1. Forkez le repository
+2. Créez une branche de fonctionnalité
+3. Effectuez vos modifications
+4. Testez minutieusement
+5. Soumettez une pull request
 
-## 📝 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 🆘 Support
-
-If you encounter any issues or have questions, please:
-1. Check the existing issues
-2. Create a new issue with detailed information
-3. Include error logs and steps to reproduce
-
-## 🎯 Future Enhancements
-
-- User authentication and authorization
-- File attachments for tasks
-- Email notifications
-- Advanced filtering and search
-- Task dependencies
-- Time tracking
-- Reporting and analytics 
